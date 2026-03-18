@@ -1,64 +1,52 @@
 # Portfolio Analysis Tool
 
-A small Python project for analyzing asset performance and constructing simple portfolios from historical price data.
+A Python-based tool for analyzing asset performance, constructing portfolios, and comparing them against benchmarks like XEQT.
 
-The goal of this project is to build a lightweight framework that can:
-- download historical price data
-- compute financial return metrics
-- visualize asset performance
-- simulate portfolio allocations
-- compare portfolio performance against individual assets
-
-This project is being built incrementally as a learning exercise in financial data analysis and Python project structure.
+This project uses real market data to compute returns, risk metrics, and visualize portfolio growth over time.
 
 ---
 
-## Current Features
+## Features
 
-### Data Pipeline
-- Download historical prices using yfinance
-- Store raw price data locally
-- Load price data for analysis
-
-### Return Calculations
-- Simple returns
-- Log returns
-- Annualized return
-- Annualized volatility
-- Sharpe ratio
-
-### Asset Analysis
-- Cumulative growth visualization
-- Log return distribution analysis
-
-### Portfolio Engine
-- Construct portfolios from asset weights
-- Compute portfolio return series
-- Compute portfolio metrics
-- Compare portfolio growth to individual assets
+- Download historical price data using `yfinance`
+- Compute asset-level metrics:
+  - Annualized return
+  - Volatility
+  - Sharpe ratio
+  - Drawdowns
+- Construct custom portfolios using weighted allocations
+- Compare multiple portfolios side-by-side
+- Benchmark portfolios against ETFs (e.g., XEQT)
+- Visualize growth of $1 over time
 
 ---
 
+## Example Output
+
+Portfolio growth comparison against XEQT benchmark:
+
+![alt text](image.png)
+
+---
 ## Project Structure
 
-
-portfolio-analysis-tool
+portfolio-analysis-tool/
 │
-├─ data
-│  ├─ raw
-│  │  └─ prices.csv
+├── data/
+│   └── raw/
+│       └── prices.csv
 │
-├─ notebooks
-│  └─ 01_exploratory_analysis.ipynb
+├── notebooks/
+│   └── 01_exploratory_analysis.ipynb
 │
-├─ src
-│  ├─ config.py
-│  ├─ data_load.py
-│  ├─ features.py
-│  └─ portfolio.py
+├── src/
+│   ├── config.py
+│   ├── data_load.py
+│   ├── features.py
+│   └── portfolio.py
 │
-├─ requirements.txt
-└─ README.md
+├── requirements.txt
+└── README.md
 
 
 ---
@@ -85,19 +73,6 @@ Portfolio growth is then obtained through cumulative compounding of the return s
 - numpy
 - matplotlib
 - yfinance
-
----
-
-## Future Work
-
-Planned extensions include:
-
-- portfolio comparison tools
-- transaction ledger support
-- portfolio rebalancing
-- benchmark comparisons
-- additional risk metrics
-- portfolio optimization
 
 ---
 

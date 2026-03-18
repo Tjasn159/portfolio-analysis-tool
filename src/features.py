@@ -11,7 +11,7 @@ def simple_returns(prices: pd.DataFrame) -> pd.DataFrame:
     Returns measure relative change from one day to the next and
     allow meaningful comparison between assets with different prices.
     """
-    returns = prices.pct_change()
+    returns = prices.pct_change(fill_method=None)
     returns = returns.dropna(how="all")
     return returns
 
