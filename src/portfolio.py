@@ -55,12 +55,12 @@ def portfolio_growth_df(portfolio_returns_df: pd.DataFrame, initial_value: float
     """
     return initial_value * (1 + portfolio_returns_df).cumprod()
 
-def compare_portfolios(asset_returns, porfolios):
-    "Compare porfolio returnsin the form of Series"
+def compare_portfolios(asset_returns, portfolios):
+    "Compare portfolio returnsin the form of Series"
 
     results = {}
 
-    for name, weights in porfolios.items():
+    for name, weights in portfolios.items():
         returns = portfolio_returns(asset_returns, weights)
 
         results[name] = returns
@@ -84,5 +84,9 @@ def compare_portfolio_metrics(portfolio_returns_df):
         results[name] = metrics
 
     return pd.DataFrame(results).T #transpose so it shows rows
+
+
+
+
     
 
