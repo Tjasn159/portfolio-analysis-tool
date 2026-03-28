@@ -213,5 +213,6 @@ __marimo__/
 src/try_functions.py
 
 #data
-data\processed\transactions_clean.csv
-data\raw\transactions1.csv
+data/raw/transactions*.csv
+data/processed/transactions_clean.csv
+data/processed/*.csv
