@@ -205,3 +205,13 @@ cython_debug/
 marimo/_static/
 marimo/_lsp/
 __marimo__/
+
+
+
+
+#sandbox function tester:
+src/try_functions.py
+
+#data
+data\processed\transactions_clean.csv
+data\raw\transactions1.csv
