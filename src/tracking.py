@@ -41,3 +41,37 @@ def build_holdings_over_time(trades:pd.DataFrame):
 
 
     return holdings
+
+
+
+def load_opening_holdings(path:str):
+    opening_holdings = pd.read_csv(path)
+
+    opening_holdings["date"] = pd.to_datetime(opening_holdings["date"])
+    opening_holdings["quantity"] = pd.to_numeric(opening_holdings["quantity"])
+
+    opening_holdings = opening_holdings.sort_values(["date", "ticker"])
+    opening_holdings = opening_holdings.reset_index(drop=True)
+
+    return opening_holdings
+
+def apply_opening_holdings(holdings: pd.DataFrame, opening_holdings: pd.DataFrame):
+    opening = opening_holdings.copy()
+
+    opening = opening.groupby(["date", "ticker"], as_index=False)["quantity"].sum()
+
+    opening = opening.pivot(index="date", columns="ticker", values="quantity")
+    opening = opening.fillna(0)
+
+    all_dates = holdings.index.union(opening.index).sort_values()
+    all_tickers = holdings.columns.union(opening.columns)
+
+    holdings = holdings.reindex(index=all_dates, columns=all_tickers, fill_value=0)
+    opening = opening.reindex(index=all_dates, columns=all_tickers, fill_value=0)
+
+    opening = opening.cumsum()
+
+    final_holdings = opening + holdings
+
+    return final_holdings
+
