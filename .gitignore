@@ -208,11 +208,12 @@ __marimo__/
 
 
 
-
-#sandbox function tester:
+# scratch runner
 src/try_functions.py
 
-#data
+# personal transaction / holdings data
 data/raw/transactions*.csv
-data/processed/transactions_clean.csv
+data/raw/opening_holdings*.csv
+
+# processed outputs
 data/processed/*.csv
