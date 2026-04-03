@@ -75,3 +75,44 @@ def apply_opening_holdings(holdings: pd.DataFrame, opening_holdings: pd.DataFram
 
     return final_holdings
 
+
+
+def map_holdings_to_price_tickers(holdings: pd.DataFrame, ticker_map: dict[str, str]):
+    mapped_holdings = holdings.copy()
+
+    mapped_holdings = mapped_holdings.rename(columns=ticker_map)
+
+    mapped_holdings = mapped_holdings.T.groupby(level=0).sum().T
+
+    return mapped_holdings
+
+
+def check_price_coverage(holdings: pd.DataFrame, prices: pd.DataFrame):
+    matched = [ticker for ticker in holdings.columns if ticker in prices.columns]
+    missing = [ticker for ticker in holdings.columns if ticker not in prices.columns]
+
+    return matched, missing
+
+
+def align_holdings_to_prices(holdings: pd.DataFrame, prices: pd.DataFrame):
+    common_tickers = holdings.columns.intersection(prices.columns)
+
+    aligned_holdings = holdings[common_tickers].copy()
+    aligned_holdings = aligned_holdings.reindex(prices.index)
+    aligned_holdings = aligned_holdings.ffill().fillna(0)
+
+    return aligned_holdings
+def compute_position_values(holdings: pd.DataFrame, prices: pd.DataFrame):
+    common_tickers = holdings.columns.intersection(prices.columns)
+
+    position_values = holdings[common_tickers] * prices[common_tickers]
+
+    return position_values
+
+
+def compute_total_portfolio_value(position_values: pd.DataFrame):
+    total_value = position_values.sum(axis=1)
+    total_value.name = "portfolio_value"
+
+    return total_value
+
