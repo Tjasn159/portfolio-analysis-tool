@@ -116,3 +116,33 @@ def compute_total_portfolio_value(position_values: pd.DataFrame):
 
     return total_value
 
+
+def build_daily_cash_balance(transactions: pd.DataFrame, prices: pd.DataFrame):
+    cash = transactions.copy()
+
+    cash = cash[["date", "balance"]]
+    cash = cash.groupby("date")["balance"].last()
+
+    cash = cash.reindex(prices.index)
+    cash = cash.ffill().fillna(0)
+
+    cash.name = "cash_balance"
+
+    return cash
+
+def compute_total_account_value(portfolio_value: pd.Series, cash_balance: pd.Series):
+    total_account_value = portfolio_value + cash_balance
+    total_account_value.name = "total_account_value"
+
+    return total_account_value
+
+
+def load_and_combine_transactions(paths: list[str]):
+    frames = [load_transactions(path) for path in paths]
+
+    combined = pd.concat(frames, ignore_index=True)
+    combined = combined.drop_duplicates()
+    combined = combined.sort_values("date")
+    combined = combined.reset_index(drop=True)
+
+    return combined
