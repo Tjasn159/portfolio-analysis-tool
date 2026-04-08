@@ -146,3 +146,26 @@ def load_and_combine_transactions(paths: list[str]):
     combined = combined.reset_index(drop=True)
 
     return combined
+
+def get_last_n_friday_closes(series: pd.Series, n: int = 5):
+    today = pd.Timestamp.today().normalize()
+
+    series = series.dropna()
+    series = series[series.index <= today]
+    series = series[series.ne(0).cummax()]
+
+    friday_closes = series[series.index.weekday == 4]
+
+    return friday_closes.tail(n)
+
+
+def get_month_end_values(series: pd.Series):
+    today = pd.Timestamp.today().normalize()
+
+    series = series.dropna()
+    series = series[series.index <= today]
+    series = series[series.ne(0).cummax()]
+
+    month_end_values = series.groupby(series.index.to_period("M"), group_keys=False).tail(1)
+
+    return month_end_values
